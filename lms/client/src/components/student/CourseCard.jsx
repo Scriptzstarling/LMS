@@ -1,20 +1,24 @@
-import React, { useContext } from 'react'
-import { Link } from 'react-router-dom'
-import { assets } from '../../assets/assets'
-import { AppContext } from '../../context/AppContext'
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { assets } from '../../assets/assets';
+import { AppContext } from '../../context/AppContext';
 
 const CourseCard = ({ course }) => {
 
-    const { currency, calculateRating } = useContext(AppContext)
+    const { currency, calculateRating } = useContext(AppContext);
 
     return (
-        <Link onClick={() => scrollTo(0, 0)} to={'/course/' + course._id} className="border border-gray-500/30 pb-6 overflow-hidden rounded-lg">
+        <Link
+            onClick={() => scrollTo(0, 0)}
+            to={'/course/' + course._id}
+            className="border border-gray-500/30 pb-6 overflow-hidden rounded-lg"
+        >
             <img className="w-full" src={course.courseThumbnail} alt='' />
             <div className="p-3 text-left">
-                <h3 className="text-base font-semibold">{course.courseTitle}</h3>
-                <p className="text-gray-500">{course.educator.name}</p>
+                <h3 className="text-base font-semibold text-white">{course.courseTitle}</h3>
+                <p className="text-white">{course.educator.name}</p>
                 <div className="flex items-center space-x-2">
-                    <p>{calculateRating(course)}</p>
+                    <p className="text-white">{calculateRating(course)}</p>
                     <div className="flex">
                         {[...Array(5)].map((_, i) => (
                             <img
@@ -25,12 +29,14 @@ const CourseCard = ({ course }) => {
                             />
                         ))}
                     </div>
-                    <p className="text-gray-500">({course.courseRatings.length})</p>
+                    <p className="text-white">({course.courseRatings.length})</p>
                 </div>
-                <p className="text-base font-semibold text-gray-800">{currency}{(course.coursePrice - course.discount * course.coursePrice / 100).toFixed(2)}</p>
+                <p className="text-base font-semibold text-white">
+                    {currency}{(course.coursePrice - course.discount * course.coursePrice / 100).toFixed(2)}
+                </p>
             </div>
         </Link>
-    )
-}
+    );
+};
 
-export default CourseCard
+export default CourseCard;

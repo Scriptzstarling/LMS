@@ -4,20 +4,30 @@ import SearchBar from '../../components/student/SearchBar';
 
 const Hero = () => {
   return (
-    <div className="flex flex-col items-center justify-center w-full md:pt-36 pt-20 px-7 md:px-0 space-y-7 text-center bg-gradient-to-b from-cyan-100/70">
-      <h1 className="md:text-home-heading-large text-home-heading-small relative font-bold text-gray-800 max-w-3xl mx-auto">
-        Empower your future with the courses designed to
-        <span className="text-blue-600"> fit your choice.</span>
-        <img src={assets.sketch} alt="sketch" className="md:block hidden absolute -bottom-7 right-0" />
-      </h1>
-      <p className="md:block hidden text-gray-500 max-w-2xl mx-auto">
-        We bring together world-class instructors, interactive content, and a supportive community to help you achieve your personal and professional goals.
-      </p>
-      <p className="md:hidden text-gray-500 max-w-sm mx-auto">
-        We bring together world-class instructors to help you achieve your professional goals.
-      </p>
-      <SearchBar />
-    </div>
+    <section className="w-full px-5 md:px-0 py-20 md:py-28 text-center bg-gradient-to-b from-gray-900 via-gray-950 to-black text-white">
+      <div className="max-w-5xl mx-auto flex flex-col items-center space-y-8 px-3">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-snug text-white relative">
+          Your Learning, Your Way.
+          <span className="block text-blue-500">Courses tailored to your dreams.</span>
+          <img
+            src={assets.sketch}
+            alt="sketch"
+            className="absolute md:block hidden -bottom-6 right-0 w-20 opacity-80"
+          />
+        </h1>
+
+        <p className="text-sm sm:text-base md:text-base text-gray-400 max-w-2xl">
+          Whether you're starting out or leveling up, find the right path with expert-guided learning.
+        </p>
+
+        {/* Glassmorphism Search Box */}
+        <div className="w-full max-w-xl">
+          <div className="backdrop-blur-md bg-white/5 border border-gray-700 rounded-xl p-4 shadow-xl shadow-blue-500/10">
+            <SearchBar />
+          </div>
+        </div>
+      </div>
+    </section>
   );
 };
 

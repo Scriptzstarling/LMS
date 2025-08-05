@@ -1,20 +1,24 @@
-import React from 'react'
-import { assets } from '../../assets/assets'
+import React from 'react';
+import { assets } from '../../assets/assets';
 
 const CallToAction = () => {
   return (
-    <div className='flex flex-col items-center gap-4 pt-10 pb-24 px-8 md:px-0'>
-      <h1 className='md:text-4xl text-xl text-gray-800 font-semibold'>Learn anything, anytime, anywhere</h1>
-      <p className='text-gray-500 sm:text-sm'>Incididunt sint fugiat pariatur cupidatat consectetur sit cillum anim id veniam aliqua proident excepteur commodo do ea.</p>
-      <div className='flex items-center font-medium gap-6 mt-4'>
-        <button className='px-10 py-3 rounded-md text-white bg-blue-600'>Get started</button>
-        <button className='flex items-center gap-2'>
-          Learn more
-          <img src={assets.arrow_icon} alt="arrow_icon" />
-        </button>
+    <div className="w-full bg-gradient-to-b from-blue-50 to-white px-4 pt-12 pb-0"> {/* Removed bottom padding */}
+      <div className="max-w-3xl mx-auto flex flex-col items-center text-center gap-4">
+        <h1 className="md:text-4xl text-2xl font-semibold text-black">
+          Learn anything, anytime, anywhere
+        </h1>
+        <p className="text-black max-w-2xl text-sm md:text-base leading-relaxed">
+          Gain access to expert-led courses in tech, business, design, and more — available 24/7 on any device. Whether you're upgrading your skills or starting a new career path, we’ve got you covered.
+        </p>
+
+        {/* Banner message */}
+        <div className="mt-4 bg-blue-600 text-white px-6 py-3 rounded-full font-medium text-sm md:text-base shadow-md">
+          🎓 Enroll today and join thousands of learners growing their future!
+        </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default CallToAction
+export default CallToAction;
