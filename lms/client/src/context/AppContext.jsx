@@ -111,7 +111,7 @@ export const AppContextProvider = (props) => {
 
     const calculateRating = (course) => {
 
-        if (course.courseRatings.length === 0) {
+        if (!course || !course.courseRatings || course.courseRatings.length === 0) {
             return 0
         }
 
@@ -119,10 +119,13 @@ export const AppContextProvider = (props) => {
         course.courseRatings.forEach(rating => {
             totalRating += rating.rating
         })
-        return Math.floor(totalRating / course.courseRatings.length)
+        return totalRating / course.courseRatings.length
     }
 
     const calculateNoOfLectures = (course) => {
+        if (!course || !course.courseContent) {
+            return 0;
+        }
         let totalLectures = 0;
         course.courseContent.forEach(chapter => {
             if (Array.isArray(chapter.chapterContent)) {
@@ -140,8 +143,19 @@ export const AppContextProvider = (props) => {
     // Fetch User's Data if User is Logged In
     useEffect(() => {
         if (user) {
+            // Check if user is educator from Clerk metadata
+            if (user.publicMetadata?.role === 'educator') {
+                setIsEducator(true)
+            }
             fetchUserData()
             fetchUserEnrolledCourses()
+        }
+    }, [user])
+
+    // Reset educator status when user logs out
+    useEffect(() => {
+        if (!user) {
+            setIsEducator(false)
         }
     }, [user])
 

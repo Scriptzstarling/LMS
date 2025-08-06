@@ -90,7 +90,7 @@ const CourseDetails = () => {
   useEffect(() => {
 
     if (userData && courseData) {
-      setIsAlreadyEnrolled(userData.enrolledCourses.includes(courseData._id))
+      setIsAlreadyEnrolled(userData.enrolledCourses && userData.enrolledCourses.includes(courseData._id))
     }
 
   }, [userData, courseData])
@@ -145,9 +145,23 @@ const CourseDetails = () => {
                           <div className="flex items-center justify-between w-full text-gray-800 text-xs md:text-default">
                             <p>{lecture.lectureTitle}</p>
                             <div className='flex gap-2'>
-                              {lecture.isPreviewFree && <p onClick={() => setPlayerData({
-                                videoId: lecture.lectureUrl.split('/').pop()
-                              })} className='text-blue-500 cursor-pointer'>Preview</p>}
+                              {lecture.isPreviewFree && lecture.lectureUrl && <p onClick={() => {
+                                try {
+                                  let videoId = '';
+                                  if (lecture.lectureUrl.includes('youtube.com/watch?v=')) {
+                                    videoId = lecture.lectureUrl.split('v=')[1]?.split('&')[0];
+                                  } else if (lecture.lectureUrl.includes('youtu.be/')) {
+                                    videoId = lecture.lectureUrl.split('/').pop()?.split('?')[0];
+                                  } else if (lecture.lectureUrl.includes('youtube.com/embed/')) {
+                                    videoId = lecture.lectureUrl.split('/embed/')[1]?.split('?')[0];
+                                  }
+                                  if (videoId) {
+                                    setPlayerData({ videoId, title: lecture.lectureTitle });
+                                  }
+                                } catch (error) {
+                                  console.error('Error parsing video URL:', error);
+                                }
+                              }} className='text-blue-500 cursor-pointer hover:underline'>Preview</p>}
                               <p>{humanizeDuration(lecture.lectureDuration * 60 * 1000, { units: ['h', 'm'] })}</p>
                             </div>
                           </div>
@@ -170,7 +184,37 @@ const CourseDetails = () => {
         <div className="max-w-course-card z-10 shadow-custom-card rounded-t md:rounded-none overflow-hidden bg-white min-w-[300px] sm:min-w-[420px]">
           {
             playerData
-              ? <YouTube videoId={playerData.videoId} opts={{ playerVars: { autoplay: 1 } }} iframeClassName='w-full aspect-video' />
+              ? (
+                <div className="relative bg-black">
+                  <YouTube 
+                    videoId={playerData.videoId} 
+                    opts={{ 
+                      playerVars: { 
+                        autoplay: 1,
+                        modestbranding: 1,
+                        rel: 0,
+                        controls: 1
+                      } 
+                    }} 
+                    iframeClassName='w-full aspect-video' 
+                    onError={(error) => {
+                      console.error('YouTube player error:', error);
+                      setPlayerData(null);
+                    }}
+                  />
+                  <button 
+                    onClick={() => setPlayerData(null)}
+                    className="absolute top-2 right-2 bg-black bg-opacity-50 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-opacity-75 transition-all"
+                  >
+                    ×
+                  </button>
+                  {playerData.title && (
+                    <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-2 text-sm">
+                      {playerData.title}
+                    </div>
+                  )}
+                </div>
+              )
               : <img src={courseData.courseThumbnail} alt="" />
           }
           <div className="p-5">
